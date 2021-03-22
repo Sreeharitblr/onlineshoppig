@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { Route, Switch, NavLink, Link } from "react-router-dom";
 import NavbarDiv from "./NavbarDiv.jsx";
 import Listitems from "./Listitems";
-import Listitems from "./Cart";
 
 function HomepageHandler() {
   const [cartItemList, setcartItemList] = useState([]);
@@ -11,7 +9,7 @@ function HomepageHandler() {
   return (
     <div>
       <h1>
-        <NavbarDiv cartItemList={cartItemList} />
+        <NavbarDiv cartItemList={cartItemList}/>
       </h1>
       <div style={{ marginLeft: "25px" }}>
         <Listitems
