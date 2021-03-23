@@ -6,12 +6,21 @@ import { Route, Switch, NavLink, Link } from "react-router-dom";
 function Items(props) {
   let itemData = {};
 
-
   if (props.type !== "cart") {
     return (
-      <div style={{ marginTop: "5rem" }}>
-        <Card style={{ width: "18rem", display: "flex" }}>
-          <Card.Img variant="top" src={props.img} />
+      <div style={{ marginTop: "5rem", borderRadius: "15px" }}>
+        <Card
+          className="shadow-lg p-3 mb-5 bg-white rounded"
+          style={{ width: "18rem", display: "flex", borderRadius: "15px" }}
+        >
+          <Card.Img
+          className="shadow mb-5 rounded"
+            variant="top"
+            src={props.img}
+            style={{
+              borderRadius: "30px",
+            }}
+          />
           <Card.Body>
             <Card.Title>Card Title</Card.Title>
             <Card.Text>
@@ -20,6 +29,7 @@ function Items(props) {
             </Card.Text>
             <Card.Text>${props.price}</Card.Text>
             <Button
+              className="shadow p-3 mb-5 rounded"
               variant="primary"
               onClick={(e) => {
                 itemData = { url: props.img, price: props.price };
@@ -35,12 +45,16 @@ function Items(props) {
     );
   } else {
     return (
-      <div style={{ marginTop: "5rem", marginLeft: "5rem" }}>
-        <Card style={{ width: "50rem", display: "flex" }}>
+      <div style={{ marginTop: "2rem", marginLeft: "5rem" }}>
+        <Card
+          className="shadow-lg p-3 mb-5 bg-white rounded"
+          style={{ width: "50rem", display: "flex" }}
+        >
           <Container style={{ marginTop: "0px" }}>
             <Row>
               <Col>
                 <Card.Img
+                className="shadow-lg  mb-5 rounded"
                   style={{ margin: "2rem" }}
                   variant="top"
                   src={props.img}
@@ -54,7 +68,13 @@ function Items(props) {
                     up the bulk of the card's content.
                   </Card.Text>
                   <Card.Text>${props.price}</Card.Text>
-                  <Button variant="primary" onClick={(e) => {props.delCartItem(props.img)}}>
+                  <Button
+                    className="shadow p-3 mb-5 rounded"
+                    variant="primary"
+                    onClick={(e) => {
+                      props.delCartItem(props.img);
+                    }}
+                  >
                     remove
                   </Button>
                 </Card.Body>

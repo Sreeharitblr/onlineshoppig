@@ -8,6 +8,8 @@ import {
   FormControl,
   Button,
   NavDropdown,
+  ButtonGroup,
+  Dropdown,
 } from "react-bootstrap";
 import {
   BrowserRouter as Router,
@@ -15,16 +17,22 @@ import {
   Route,
   Link,
   useParams,
-  withRouter
-} from "react-router-dom" ;
+  withRouter,
+} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function NavbarDiv(props) {
+  
   let gotoCart = (e) => {
-    localStorage.setItem('testData',JSON.stringify(props.cartItemList))
+    localStorage.setItem("testData", JSON.stringify(props.cartItemList));
     //props.history.push(`/Cart/:${JSON.stringify(props.cartItemList)}`);
-    props.history.push('/Cart');
+    props.history.push("/Cart");
   };
+
+  let logIn = ()=>{
+    props.history.push("/Login");
+  };
+
   return (
     <div>
       <Router>
@@ -80,10 +88,10 @@ function NavbarDiv(props) {
                   gotoCart(e);
                 }}
               >
-                Cart
+                {props.cartItemList.length + " " + "Cart"}
               </Button>
             </Form>
-            <NavDropdown
+            {/* <NavDropdown
               className="mr-ml-2"
               style={{ fontSize: "20px", color: "white" }}
               title="Login"
@@ -99,7 +107,30 @@ function NavbarDiv(props) {
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
+            <Form inline className="mx-2">
+              <Dropdown as={ButtonGroup}>
+                <Button variant="primary" onClick={(e)=>{logIn(e)}}>Login</Button>
+
+                <Dropdown.Toggle
+                  split
+                  variant="primary"
+                  id="dropdown-split-basic"
+                  drop="left"
+                />
+
+                <Dropdown.Menu >
+                  <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                  <Dropdown.Item href="#/action-2">
+                    Another action
+                  </Dropdown.Item>
+                  <Dropdown.Divider />
+                  <Dropdown.Item href="#/action-3">
+                    Something else
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </Form>
           </Nav>
         </Navbar>
       </Router>
@@ -107,4 +138,4 @@ function NavbarDiv(props) {
   );
 }
 
-export default withRouter (NavbarDiv);
+export default withRouter(NavbarDiv);

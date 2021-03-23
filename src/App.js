@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./App.css";
 import Home from "./component/Home";
 import Cart from "./component/Cart";
+import Login from "./component/Login";
 import {
   BrowserRouter as Router,
   Switch,
@@ -19,6 +20,7 @@ function App() {
             <Route exact path="/" component={Home} />
             {/* <Route exact path="/Cart/:cartItemList" component={Cart} /> */}
             <Route exact path="/Cart" component={Cart} />
+            <Route exact path="/Login" component={Login} />
           </Switch>
         </div>
       </Router>
