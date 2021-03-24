@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { ArrowRight, Cart,PeopleCircle, PersonPlusFill } from 'react-bootstrap-icons';
 //import {Nav ,Navbar,Button,Form,FormControl} from  "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -22,21 +23,20 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function NavbarDiv(props) {
-  
   let gotoCart = (e) => {
     localStorage.setItem("testData", JSON.stringify(props.cartItemList));
     //props.history.push(`/Cart/:${JSON.stringify(props.cartItemList)}`);
     props.history.push("/Cart");
   };
 
-  let logIn = ()=>{
+  let logIn = () => {
     props.history.push("/Login");
   };
 
   return (
     <div>
       <Router>
-        <Navbar bg="primary" variant="dark">
+        <Navbar className="shadow " bg="primary" variant="dark">
           {/* <Navbar.Brand style={{ fontSize: "20px" }} href="#home">
             Navbar
           </Navbar.Brand> */}
@@ -88,7 +88,11 @@ function NavbarDiv(props) {
                   gotoCart(e);
                 }}
               >
-                {props.cartItemList.length + " " + "Cart"}
+                <Cart/>{""} Cart {""}
+                <span class="badge badge-light">
+                  {props.cartItemList.length}
+                </span>
+                <span class="sr-only">unread messages</span>
               </Button>
             </Form>
             {/* <NavDropdown
@@ -110,7 +114,14 @@ function NavbarDiv(props) {
             </NavDropdown> */}
             <Form inline className="mx-2">
               <Dropdown as={ButtonGroup}>
-                <Button variant="primary" onClick={(e)=>{logIn(e)}}>Login</Button>
+                <Button
+                  variant="primary"
+                  onClick={(e) => {
+                    logIn(e);
+                  }}
+                >
+                 <PersonPlusFill/> {""} Login
+                </Button>
 
                 <Dropdown.Toggle
                   split
@@ -119,7 +130,7 @@ function NavbarDiv(props) {
                   drop="left"
                 />
 
-                <Dropdown.Menu >
+                <Dropdown.Menu>
                   <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
                   <Dropdown.Item href="#/action-2">
                     Another action

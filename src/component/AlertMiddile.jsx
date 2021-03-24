@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Button, Card, Modal } from "react-bootstrap";
+import { EmojiFrown,EmojiHeartEyes,ExclamationSquareFill } from "react-bootstrap-icons";
 
 function AlertMiddile(props) {
   return (
@@ -11,15 +12,13 @@ function AlertMiddile(props) {
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
-          Modal heading
+          <ExclamationSquareFill/>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <h4>Centered Modal</h4>
+        <h4>Woops! <EmojiFrown/></h4>
         <p>
-          Cras mattis consectetur purus sit amet fermentum. Cras justo odio,
-          dapibus ac facilisis in, egestas eget quam. Morbi leo risus, porta ac
-          consectetur ac, vestibulum at eros.
+          You have not Loged in , Plase login to Continue... <EmojiHeartEyes/>
         </p>
       </Modal.Body>
       <Modal.Footer>

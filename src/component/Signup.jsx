@@ -14,8 +14,8 @@ import {
 
 function SignUp() {
   const [validated, setValidated] = useState(false);
-  const [userDetails, setUserDetails] = useState(false);
-
+  const [userDetails, setUserDetails] = useState([]);
+  let user = {};
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -24,10 +24,34 @@ function SignUp() {
     }
 
     setValidated(true);
+    console.log(user);
+    setUserDetails((userDetails) => [...userDetails, user]);
+    console.log(userDetails);
+    user = {};
+    localStorage.setItem("LoginData", JSON.stringify(userDetails));
   };
 
   const handleInsertion = (e) => {
-    console.log(e.target.value);
+    //console.log(e.target.placeholder);
+    const { placeholder, value } = e.target;
+    switch (placeholder) {
+      case "First name":
+        user[placeholder] = value;
+        break;
+      case "Last name":
+        user[placeholder] = value;
+        break;
+      case "Username":
+        user[placeholder] = value;
+        break;
+      case "City":
+        user[placeholder] = value;
+        break;
+      case "Zip":
+        user[placeholder] = value;
+        break;
+    }
+    user["id"] = Math.floor(Math.random() * 100);
   };
 
   return (
