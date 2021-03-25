@@ -14,31 +14,37 @@ import {
 
 function SignUp() {
   const [validated, setValidated] = useState(false);
-  const [userDetails, setUserDetails] = useState([]);
+  //const [userDetails, setUserDetails] = useState([]);
   let user = {};
+  let userDetails =[];
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
     }
-
     setValidated(true);
     console.log(user);
-    setUserDetails((userDetails) => [...userDetails, user]);
+    userDetails.push(user);
     console.log(userDetails);
     user = {};
     localStorage.setItem("LoginData", JSON.stringify(userDetails));
+  };
+
+
+
+  const saveData = async (e) => {
+
   };
 
   const handleInsertion = (e) => {
     //console.log(e.target.placeholder);
     const { placeholder, value } = e.target;
     switch (placeholder) {
-      case "First name":
+      case "Firstname":
         user[placeholder] = value;
         break;
-      case "Last name":
+      case "Lastname":
         user[placeholder] = value;
         break;
       case "Username":
@@ -50,8 +56,12 @@ function SignUp() {
       case "Zip":
         user[placeholder] = value;
         break;
+      case "Password":
+        user[placeholder] = value;
+        break;
     }
     user["id"] = Math.floor(Math.random() * 100);
+    user["login"] = false;
   };
 
   return (
@@ -63,7 +73,7 @@ function SignUp() {
             <Form.Control
               required
               type="text"
-              placeholder="First name"
+              placeholder="Firstname"
               onChange={(e) => {
                 handleInsertion(e);
               }}
@@ -75,7 +85,7 @@ function SignUp() {
             <Form.Control
               required
               type="text"
-              placeholder="Last name"
+              placeholder="Lastname"
               onChange={(e) => {
                 handleInsertion(e);
               }}
@@ -89,7 +99,7 @@ function SignUp() {
                 <InputGroup.Text id="inputGroupPrepend">@</InputGroup.Text>
               </InputGroup.Prepend>
               <Form.Control
-                type="text"
+                type="email"
                 placeholder="Username"
                 aria-describedby="inputGroupPrepend"
                 required
@@ -147,6 +157,36 @@ function SignUp() {
             </Form.Control.Feedback>
           </Form.Group>
         </Form.Row>
+        <Form.Row>
+          <Form.Group as={Col} md="6" controlId="validationCustom06">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Password"
+              required
+              onChange={(e) => {
+                handleInsertion(e);
+              }}
+            />
+            <Form.Control.Feedback type="invalid">
+            Please enter password
+            </Form.Control.Feedback>
+          </Form.Group>
+          <Form.Group as={Col} md="6" controlId="validationCustom07">
+            <Form.Label>Confirm Password</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Confirm Password"
+              required
+              onChange={(e) => {
+                handleInsertion(e);
+              }}
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter password.
+            </Form.Control.Feedback>
+          </Form.Group>
+        </Form.Row>
         <Form.Group>
           <Form.Check
             required
@@ -154,7 +194,17 @@ function SignUp() {
             feedback="You must agree before submitting."
           />
         </Form.Group>
-        <Button type="submit">Submit form</Button>
+        <Button
+          type="submit"
+          style={{
+            marginBottom : "30px"
+          }}
+          onClick={(e) => {
+            saveData(e);
+          }}
+        >
+          Submit
+        </Button>
       </Form>
     </div>
   );

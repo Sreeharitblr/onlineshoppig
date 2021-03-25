@@ -15,11 +15,38 @@ function Cart(props) {
     console.log(props.history.goBack);
   };
 
+  let byNow = () => {
+    let loginArr = JSON.parse(localStorage.getItem("LoginData"));
+    if (!loginArr) {
+      setModalShow(true);
+    } else {
+      loginArr.forEach((element) => {
+        if (element.login === false) {
+          setModalShow(true);
+        }
+      });
+    }
+  };
+
+  let backToLogin = () => {
+    setModalShow(false);
+    props.history.push("/Login");
+  };
+
   let total = 0;
   let priceArr = [];
   let selectedItem = JSON.parse(localStorage.getItem("testData"));
   console.log("cart", selectedItem);
   console.log(priceArr);
+
+  let delCartItem = (delimg) => {
+    var temp = selectedItem.filter((ele) => ele.url !== delimg);
+    selectedItem = temp;
+    localStorage.clear();
+    localStorage.setItem("testData", JSON.stringify(temp));
+    console.log("dele", JSON.parse(localStorage.getItem("testData")));
+  };
+
   return (
     <div style={{ marginLeft: "50px", marginRight: "50px" }}>
       <h4
@@ -29,7 +56,9 @@ function Cart(props) {
           marginTop: "40px",
           opacity: "70%",
         }}
-        onClick  = {(e)=>{backToHomePage(e)}}
+        onClick={(e) => {
+          backToHomePage(e);
+        }}
       >
         <ArrowLeft /> Continue Shopping
       </h4>
@@ -54,16 +83,16 @@ function Cart(props) {
         You have {selectedItem.length} in your cart
       </h6>
       {selectedItem.map((ele, index) => {
-        total += (ele.price * ele.count);
+        total += ele.price * ele.count;
         priceArr.push(ele.price);
         return (
-          <Items 
+          <Items
             img={ele.url}
             price={ele.price}
             index={index}
             type="cart"
-            count = {ele.count}
-            id= {ele.id}
+            count={ele.count}
+            id={ele.id}
             delCartItem={(delimg) => delCartItem(delimg)}
           />
         );
@@ -126,7 +155,7 @@ function Cart(props) {
               variant="warning"
               size="lg"
               block
-              onClick={() => setModalShow(true)}
+              onClick={() => byNow()}
               className="shadow p-2 mb-3 rounded"
             >
               Buy Now
@@ -143,11 +172,15 @@ function Cart(props) {
           </Card.Body>
         </Card>
       </div>
-      {priceArr=[]}
+      {(priceArr = [])}
       {/* //  floating buttion          */}
 
       <div>
-        <AlertMiddile show={modalShow} onHide={() => setModalShow(false)} />
+        <AlertMiddile
+          show={modalShow}
+          Continue={() => setModalShow(false)}
+          Cancel={() => backToLogin()}
+        />
         <p className="border-top my-3"></p>
         <h3
           style={{ textAlign: "right", paddingRight: "200px", color: "indigo" }}
@@ -184,14 +217,5 @@ function Cart(props) {
     </div>
   );
 }
-
-let delCartItem = (delimg) => {
-  let temp = JSON.parse(localStorage.getItem("testData")).filter(
-    (ele) => ele.url !== delimg
-  );
-  localStorage.clear();
-  localStorage.setItem("testData", JSON.stringify(temp));
-  console.log("dele", JSON.parse(localStorage.getItem("testData")));
-};
 
 export default withRouter(Cart);

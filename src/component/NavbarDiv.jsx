@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { ArrowRight, Cart,PeopleCircle, PersonPlusFill } from 'react-bootstrap-icons';
+import {
+  ArrowRight,
+  Cart3,
+  PeopleCircle,
+  PersonPlusFill,
+} from "react-bootstrap-icons";
+import addItemToList from "./addItemToList";
 //import {Nav ,Navbar,Button,Form,FormControl} from  "bootstrap/dist/css/bootstrap.min.css";
 
 import {
@@ -23,13 +29,39 @@ import {
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function NavbarDiv(props) {
+  //const[name,setName] = useState();
+
+  let loginArr = JSON.parse(localStorage.getItem("LoginData"));
+  let name = "";
+  if (!loginArr) {
+    name = "Login";
+  } else {
+    loginArr.forEach((element) => {
+      console.log("asdasfas", element.login);
+      name = element.login ? "Hello " + element.Firstname : "Login";
+    });
+  }
+
+  let saveToLocal = (arrname, arr) => {
+    localStorage.setItem(arrname, JSON.stringify(arr));
+    console.log("-----------");
+  };
+
+  let logOut = () => {
+    loginArr.forEach((element) => {
+      element.login = false;
+    });
+    saveToLocal("LoginData", loginArr);
+  };
+
   let gotoCart = (e) => {
-    localStorage.setItem("testData", JSON.stringify(props.cartItemList));
+    saveToLocal("testData", props.cartItemList);
     //props.history.push(`/Cart/:${JSON.stringify(props.cartItemList)}`);
     props.history.push("/Cart");
   };
 
   let logIn = () => {
+    //<Login setItem={(name)=>setName([...name , name])}/>
     props.history.push("/Login");
   };
 
@@ -71,9 +103,7 @@ function NavbarDiv(props) {
               </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
               <NavDropdown.Divider />
-              <NavDropdown.Item href="#action/3.4">
-                Separated link
-              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">ADD</NavDropdown.Item>
             </NavDropdown>
           </Nav>
           <Form inline>
@@ -88,7 +118,8 @@ function NavbarDiv(props) {
                   gotoCart(e);
                 }}
               >
-                <Cart/>{""} Cart {""}
+                <Cart3 style={{ marginBottom: "4px" }} />
+                {""} Cart {""}
                 <span class="badge badge-light">
                   {props.cartItemList.length}
                 </span>
@@ -115,15 +146,17 @@ function NavbarDiv(props) {
             <Form inline className="mx-2">
               <Dropdown as={ButtonGroup}>
                 <Button
+                  disabled={name !== "Login"}
                   variant="primary"
                   onClick={(e) => {
                     logIn(e);
                   }}
                 >
-                 <PersonPlusFill/> {""} Login
+                  <PersonPlusFill style={{ marginBottom: "4px" }} /> {""} {name}
                 </Button>
 
                 <Dropdown.Toggle
+                  disabled={name === "Login"}
                   split
                   variant="primary"
                   id="dropdown-split-basic"
@@ -136,8 +169,8 @@ function NavbarDiv(props) {
                     Another action
                   </Dropdown.Item>
                   <Dropdown.Divider />
-                  <Dropdown.Item href="#/action-3">
-                    Something else
+                  <Dropdown.Item href="#/action-3" onClick={() => logOut()}>
+                    Logout
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
