@@ -17,18 +17,26 @@ function SignUp() {
   //const [userDetails, setUserDetails] = useState([]);
   let user = {};
   let userDetails =[];
+
   const handleSubmit = (event) => {
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
       event.stopPropagation();
+    } 
+    console.log(Object.keys(user).length);
+    if(Object.keys(user).length<9){
+      window.alert("Oooooopss!!!!!!")
+    }else{
+      setValidated(true);
+      console.log(user);
+      userDetails.push(user);
+      console.log(userDetails);
+      user = {};
+      localStorage.setItem("LoginData", JSON.stringify(userDetails));
+      //event.target.reset();
+      window.location.reload(); 
     }
-    setValidated(true);
-    console.log(user);
-    userDetails.push(user);
-    console.log(userDetails);
-    user = {};
-    localStorage.setItem("LoginData", JSON.stringify(userDetails));
   };
 
 
@@ -53,6 +61,9 @@ function SignUp() {
       case "City":
         user[placeholder] = value;
         break;
+      case "State":
+        user[placeholder] = value;
+        break;
       case "Zip":
         user[placeholder] = value;
         break;
@@ -66,7 +77,7 @@ function SignUp() {
 
   return (
     <div style={{ marginTop: "50px" }}>
-      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+      <Form id ="signUpForm" noValidate validated={validated} onSubmit={(e)=>{handleSubmit(e)}}>
         <Form.Row>
           <Form.Group as={Col} md="6" controlId="validationCustom01">
             <Form.Label>First name</Form.Label>

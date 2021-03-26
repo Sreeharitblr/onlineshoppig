@@ -14,22 +14,27 @@ import { Route, Switch, NavLink, Link } from "react-router-dom";
 function Items(props) {
   const [count, setCount] = useState(props.count);
   let itemData = {};
-  let setDataCount = (e)=>{
-    switch (e.target.id){
-      case "incrementBtn" :
-        setCount(count+1)
+
+  // if (props.count !== count) setCount(props.count);
+  
+  console.log("item count",props.count , count);
+
+  let setDataCount = (e) => {
+    switch (e.target.id) {
+      case "incrementBtn":
+        setCount(count + 1);
         break;
-      case "decrementBtn" :
-        setCount(count-1)
+      case "decrementBtn":
+        setCount(count - 1);  
         break;
     }
-      let tempdata = JSON.parse(localStorage.getItem('testData'))
-      tempdata.forEach(element => {
-          if(element.id === props.id){
-            element.count = count;
-          }
-      });
-      localStorage.setItem('testData',JSON.stringify(tempdata));
+    let tempdata = JSON.parse(localStorage.getItem("testData"));
+    tempdata.forEach((element) => {
+      if (element.id === props.id) {
+        element.count = count;
+      }
+    });
+    localStorage.setItem("testData", JSON.stringify(tempdata));
   };
 
   if (props.type !== "cart") {
@@ -58,7 +63,12 @@ function Items(props) {
               className="shadow p-3 mb-5 rounded"
               variant="primary"
               onClick={(e) => {
-                itemData = { url: props.img, price: props.price, count: 1 , id: Math.floor(Math.random()*50)};
+                itemData = {
+                  url: props.img,
+                  price: props.price,
+                  count: 1,
+                  id: Math.floor(Math.random() * 50),
+                };
                 props.setcartItemList(itemData);
                 itemData = {};
               }}
@@ -102,10 +112,12 @@ function Items(props) {
                         }}
                         onClick={(e) => {
                           setDataCount(e);
+                          props.click();
                         }}
                       >
                         -
                       </Button>
+                      {console.log("form",count)}
                       <FormControl
                         type="text"
                         placeholder="0"
@@ -115,10 +127,11 @@ function Items(props) {
                           marginTop: "5%",
                           marginBottom: "5%",
                         }}
+                        
                         value={count}
                       />
                       <Button
-                      id="incrementBtn"
+                        id="incrementBtn"
                         style={{
                           width: "10%",
                           marginTop: "5%",
@@ -127,6 +140,7 @@ function Items(props) {
                         }}
                         onClick={(e) => {
                           setDataCount(e);
+                          props.click();
                         }}
                       >
                         +
@@ -139,6 +153,7 @@ function Items(props) {
                     variant="primary"
                     onClick={(e) => {
                       props.delCartItem(props.img);
+                      props.click();                      
                     }}
                   >
                     remove

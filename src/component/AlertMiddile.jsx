@@ -20,18 +20,24 @@ function AlertMiddile(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {console.log(props.msg)}
         <h4>
-          Woops! <EmojiFrown />
+          Ooops! <EmojiFrown />
         </h4>
         <p>
-          You have not Loged in , Plase login to Continue... <EmojiHeartEyes />
+          {props.msg} <EmojiHeartEyes />
         </p>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="danger" onClick={props.Continue}>
           Close
         </Button>
-        <Button onClick={props.Cancel}  >Login</Button>
+        {console.log()}
+        <Button
+          onClick={props.bacToHome ? props.Cancel :  props.setBacToHome}
+        >
+          {props.bacToHome ? "Login" : "Continue"}
+        </Button>
       </Modal.Footer>
     </Modal>
   );

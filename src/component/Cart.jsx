@@ -8,20 +8,31 @@ import AlertMiddile from "./AlertMiddile";
 
 function Cart(props) {
   const [modalShow, setModalShow] = useState(false);
+  const [click, setclick] = useState(false);
+  const [bacToHome, setBacToHome] = useState(false);
+  const [mess, setMess] = useState();
   //const [total, setTotal] = useState(0);
+  let mssg = "";
 
   let backToHomePage = (e) => {
-    props.history.goBack();
-    console.log(props.history.goBack);
+    setMess("You will be lose data on your cart, Are u sure ?...");
+    setModalShow(true);
+    if (bacToHome === true) {
+        setModalShow(false)
+        props.history.goBack();
+        setBacToHome(false)
+    }
   };
-
-  let byNow = () => {
+  let byNow = (msg) => {
+    setBacToHome(true)
     let loginArr = JSON.parse(localStorage.getItem("LoginData"));
     if (!loginArr) {
+      setMess(msg);
       setModalShow(true);
     } else {
       loginArr.forEach((element) => {
         if (element.login === false) {
+          setMess(msg);
           setModalShow(true);
         }
       });
@@ -38,14 +49,23 @@ function Cart(props) {
   let selectedItem = JSON.parse(localStorage.getItem("testData"));
   console.log("cart", selectedItem);
   console.log(priceArr);
+  let delCount = 0;
 
   let delCartItem = (delimg) => {
     var temp = selectedItem.filter((ele) => ele.url !== delimg);
     selectedItem = temp;
+    delCount += 1;
     localStorage.clear();
     localStorage.setItem("testData", JSON.stringify(temp));
     console.log("dele", JSON.parse(localStorage.getItem("testData")));
   };
+
+  useEffect(() => {
+    setclick(false);
+    return () => {
+      console.log(delCount);
+    };
+  }, [click]);
 
   return (
     <div style={{ marginLeft: "50px", marginRight: "50px" }}>
@@ -93,6 +113,7 @@ function Cart(props) {
             type="cart"
             count={ele.count}
             id={ele.id}
+            click={() => setclick(true)}
             delCartItem={(delimg) => delCartItem(delimg)}
           />
         );
@@ -155,7 +176,9 @@ function Cart(props) {
               variant="warning"
               size="lg"
               block
-              onClick={() => byNow()}
+              onClick={() =>
+                byNow("You have not Loged in , Plase login to Continue...")
+              }
               className="shadow p-2 mb-3 rounded"
             >
               Buy Now
@@ -176,7 +199,11 @@ function Cart(props) {
       {/* //  floating buttion          */}
 
       <div>
+        {console.log("555555555", mess)}
         <AlertMiddile
+          msg={mess}
+          bacToHome={bacToHome}
+          setBacToHome={() => setBacToHome(true)}
           show={modalShow}
           Continue={() => setModalShow(false)}
           Cancel={() => backToLogin()}
